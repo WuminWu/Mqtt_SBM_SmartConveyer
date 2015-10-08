@@ -1,0 +1,8 @@
+C:\Users\21313534\Desktop\Mqtt_SBM_SmartConveyer\Mqtt_SBM_SmartConveyer\bin\Debug\Mqtt_SBM_SmartConveyer.exe.config
+C:\Users\21313534\Desktop\Mqtt_SBM_SmartConveyer\Mqtt_SBM_SmartConveyer\bin\Debug\Mqtt_SBM_SmartConveyer.exe
+C:\Users\21313534\Desktop\Mqtt_SBM_SmartConveyer\Mqtt_SBM_SmartConveyer\bin\Debug\Mqtt_SBM_SmartConveyer.pdb
+C:\Users\21313534\Desktop\Mqtt_SBM_SmartConveyer\Mqtt_SBM_SmartConveyer\obj\Debug\Mqtt_SBM_SmartConveyer.Form1.resources
+C:\Users\21313534\Desktop\Mqtt_SBM_SmartConveyer\Mqtt_SBM_SmartConveyer\obj\Debug\Mqtt_SBM_SmartConveyer.Properties.Resources.resources
+C:\Users\21313534\Desktop\Mqtt_SBM_SmartConveyer\Mqtt_SBM_SmartConveyer\obj\Debug\Mqtt_SBM_SmartConveyer.csproj.GenerateResource.Cache
+C:\Users\21313534\Desktop\Mqtt_SBM_SmartConveyer\Mqtt_SBM_SmartConveyer\obj\Debug\Mqtt_SBM_SmartConveyer.exe
+C:\Users\21313534\Desktop\Mqtt_SBM_SmartConveyer\Mqtt_SBM_SmartConveyer\obj\Debug\Mqtt_SBM_SmartConveyer.pdb
