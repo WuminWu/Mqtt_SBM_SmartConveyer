@@ -33,8 +33,11 @@ namespace Mqtt_SBM_SmartConveyer
     {
         private bool InitControllerResult = false, InitControllerResult2 = false, InitRobotResult, InitMessagePort;
         private string pwd = "1234";
+        private string hostIP = "192.168.0.2";
         private string robotIP = "192.168.0.3";
         private int robotPort = 5000;
+        private static bool actionFinished = false;
+        private string actionDone = "RobotActionDone\r\n";
 
         // variable of Mqtt
         const string ipAddress = "127.0.0.1";
@@ -44,9 +47,11 @@ namespace Mqtt_SBM_SmartConveyer
         const string PAYLOAD_move21 = "mov 2,1";
         const string PAYLOAD_respOK = "OK";
         const string PAYLOAD_respNG = "NG";
+        static ushort publishOK ;
 
+        private Thread MsgThread;
         public TcpClient tcpClient = new TcpClient();
-        MqttClient client = new MqttClient(IPAddress.Parse(ipAddress));
+        static MqttClient client = new MqttClient(IPAddress.Parse(ipAddress));
         public static IACT_RobotLibrary.IACT_RobotLibrary robot = new IACT_RobotLibrary.IACT_RobotLibrary();
 
         public Form1()
@@ -65,6 +70,68 @@ namespace Mqtt_SBM_SmartConveyer
         {
             client.Disconnect();
             Console.WriteLine("Form1_Load MQTT Disconnect ");
+        }
+
+        // Receive Message, As a Server
+        private void communicateMessageLoop()
+        {
+            IPAddress ip = IPAddress.Parse(hostIP);
+            TcpListener tcpListener = new TcpListener(ip, 36000);
+            tcpListener.Start();
+            Console.WriteLine("communicateMessageLoop Server Waiting.............");
+
+            while (true)
+            {
+                TcpClient tcpClient = tcpListener.AcceptTcpClient();
+                Console.WriteLine("AcceptTcpClient()");
+                try
+                {
+                    if (tcpClient.Connected)
+                    {
+                        Console.WriteLine("communicateMessageLoop Success !!");
+                        string receiveMsg = string.Empty;
+                        byte[] receiveBytes = new byte[tcpClient.ReceiveBufferSize];
+                        int numberOfBytesRead = 0;
+                        NetworkStream networkStream = tcpClient.GetStream();
+
+                        if (networkStream.CanRead)
+                        {
+                            do
+                            {
+                                // Read Data
+                                numberOfBytesRead = networkStream.Read(receiveBytes, 0, tcpClient.ReceiveBufferSize);
+                                receiveMsg = Encoding.Default.GetString(receiveBytes, 0, numberOfBytesRead);
+                                if (receiveMsg != "")
+                                    Console.WriteLine("Get receiveMsg = " + receiveMsg);
+                                if (receiveMsg.Equals(actionDone))
+                                {
+                                    Console.WriteLine("Robot action Done");
+                                    // publish OK when action Done
+                                    actionFinished = true ;
+                                }
+
+
+                                /*
+                                // Write Data and return it to Client
+                                String strTest = "Send Msg from Server";
+                                Byte[] myBytes = Encoding.ASCII.GetBytes(strTest);
+                                networkStream = tcpClient.GetStream();
+                                networkStream.Write(myBytes, 0, myBytes.Length);
+                                */
+                            }
+                            while (networkStream.DataAvailable);                  // return to AcceptTcpClient() if false
+                            // while(true)                                        // keep receive
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Catch Exception = " + e);
+                    tcpClient.Close();
+                    Console.WriteLine("Server communicateMessageLoop Close");
+                    Console.Read();
+                }
+            }
         }
 
         // Mqtt Protocol Function
@@ -102,11 +169,23 @@ namespace Mqtt_SBM_SmartConveyer
             switch (publishReceived)
             {
                 case PAYLOAD_move12 :
+                case "Pallet to Tester":
                     action_movAtoB();
+                    if (actionFinished)
+                    {
+                        publishOK = client.Publish(TOPIC_result, Encoding.UTF8.GetBytes(PAYLOAD_respOK));
+                        actionFinished = false;
+                    }                  
                     break;
 
                 case PAYLOAD_move21 :
+                case "Tester to Pallet":
                     action_movBtoA();
+                    if (actionFinished)
+                    {
+                        publishOK = client.Publish(TOPIC_result, Encoding.UTF8.GetBytes(PAYLOAD_respOK));
+                        actionFinished = false;
+                    }
                     break;
 
                 default:
@@ -155,6 +234,10 @@ namespace Mqtt_SBM_SmartConveyer
         {
             // Connect with Robot Controller
             InitRobotResult = robot.InitRobotOnly(robotIP, robotPort);
+
+            // GetMessage While Form_Main activate
+            MsgThread = new Thread(new ThreadStart(communicateMessageLoop));
+            MsgThread.Start();
 
             if (InitRobotResult == true)
             {

@@ -1,0 +1,102 @@
+'
+' Author  : Wumin
+' Project : SMB Conveyor
+' Date    : 2015/10 
+'
+
+String getString$
+
+Function main
+	
+	Power High
+	Speed 100, 50, 50
+    Accel 100, 30, 100, 50, 100, 10
+    
+	'Xqt getStringService
+	'Print "Xqt getStringService"
+	
+	Jump Point_A +TLZ(30)
+	Speed 5
+	Accel 5, 5
+	Wait 0.1
+	Go Point_A
+	Speed 100, 100, 100
+   	Accel 100, 30, 100, 50, 100, 10
+   	
+	Jump Point_B +TLZ(30)
+	Speed 5
+	Accel 5, 5
+	Wait 0.1
+	Go Point_B
+	Speed 100, 100, 100
+   	Accel 100, 30, 100, 50, 100, 10
+   	
+	Call sendActionFinished
+
+Fend
+
+Function main1
+	
+	Power High
+	Speed 100, 50, 50
+    Accel 100, 30, 100, 50, 100, 10
+    
+	'Xqt getStringService
+	'Print "Xqt getStringService"
+	
+	Jump Point_B +TLZ(30)
+	Speed 5
+	Accel 5, 5
+	Wait 0.1
+	Go Point_B
+	Speed 100, 100, 100
+   	Accel 100, 30, 100, 50, 100, 10
+   	
+	Jump Point_A +TLZ(30)
+	Speed 5
+	Accel 5, 5
+	Wait 0.1
+	Go Point_A
+	Speed 100, 100, 100
+   	Accel 100, 30, 100, 50, 100, 10
+   	
+	Call sendActionFinished
+
+Fend
+
+Function getStringService
+	OpenNet #203 As Server                  ' ip = 192.168.0.3 , port = 2002
+	WaitNet #203
+	Print "Connection of getString is fine"
+
+	Do
+		If ChkNet(203) > 0 Then
+			Input #203, getString$
+			Print getString$
+			Print #203, "Got String"
+			Print "String Send Feedback"
+		Else
+			'Print "Nothing Recieved"
+		EndIf
+	Loop
+	CloseNet #203
+	Print "CloseNet #203 String"
+Fend
+
+Function sendActionFinished
+	
+	'Port: #215
+	'Host Name: 192.168.0.2
+	'TCP/IPPort: 36000
+	
+	Print "Here is Client #215"
+	OpenNet #215 As Client
+	WaitNet #215
+	Print "Wait #215"
+	Print #215, "RobotActionDone"
+	Print "Send Mesg"
+	CloseNet #215
+	
+Fend
+
+
