@@ -1,7 +1,7 @@
 '
 ' Author  : Wumin
 ' Project : SMB Conveyor
-' Date    : 2015/10 
+' Date    : 2015/10  
 '
 
 String getString$
@@ -32,6 +32,8 @@ Function main
    	Accel 100, 30, 100, 50, 100, 10
    	
 	Call sendActionFinished
+	
+	Jump origin
 
 Fend
 
@@ -41,7 +43,7 @@ Function main1
 	Speed 100, 50, 50
     Accel 100, 30, 100, 50, 100, 10
     
-	'Xqt getStringService
+	'Xqt getStringService 
 	'Print "Xqt getStringService"
 	
 	Jump Point_B +TLZ(30)
@@ -61,6 +63,8 @@ Function main1
    	Accel 100, 30, 100, 50, 100, 10
    	
 	Call sendActionFinished
+	
+	Jump Origin
 
 Fend
 

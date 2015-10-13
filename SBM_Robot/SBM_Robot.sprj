@@ -1,11 +1,11 @@
-ENVT0100,LM:2015/10/12 07:35:32:824,DS:0000006245,CS:00298,MA:08-00-27-00-0C-1B,EI:           
+ENVT0100,LM:2015/10/13 06:39:55:492,DS:0000006245,CS:02862,MA:08-00-27-00-0C-1B,EI:           
 SystemProperties {
 	sRCVersion="7.1.0"
 	sRCRevision=""
 	sGUID="656c10e7-9765-40f3-af0b-92f0def7d3c9"
 	sPath="C:\\EpsonRC70\\Projects\\IAC\\SBM_Robot\\"
 	sCreated="2015/10/8 下午 04:50:08"
-	sLastModified="2015/10/12 下午 03:35:31"
+	sLastModified="2015/10/13 下午 02:39:53"
 	bBuildComplete=True
 	bFirstBuildComplete=True
 	bRebuildRequired=False
@@ -34,7 +34,7 @@ ProgramFile1 {
 	sName="Main.prg"
 	bCompiled=True
 	bStoreInController=True
-	sTimeSavedInController="2015/10/12 上午 07:01:35"
+	sTimeSavedInController="2015/10/13 上午 06:38:09"
 }
 nIncludeFileCount=0
 nPointFileCount=1
@@ -42,7 +42,7 @@ PointFile1 {
 	sName="robot1.pts"
 	nRobot=1
 	bDefault=True
-	sTimeSavedInController="2015/10/12 上午 02:21:53"
+	sTimeSavedInController="2015/10/13 上午 06:37:43"
 }
 OperatorSettings {
 	OperatorWindow {

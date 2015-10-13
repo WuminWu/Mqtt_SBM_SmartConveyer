@@ -1,4 +1,4 @@
-ENVT0100,LM:2015/10/12 09:31:09:094,DS:0000001978,CS:24669,MA:08-00-27-00-0C-1B,EI:           
+ENVT0100,LM:2015/10/13 06:46:17:462,DS:0000001977,CS:24887,MA:08-00-27-00-0C-1B,EI:           
 sActiveChild="Main.prg"
 bMdiMaximized=False
 nProgramFileCount=1
@@ -17,7 +17,7 @@ nIncludeFileCount=0
 nPointFileCount=1
 PointFile1 {
 	sName="robot1.pts"
-	bOpened=False
+	bOpened=True
 	nWinState=0
 	Window {
 		nLeft=0

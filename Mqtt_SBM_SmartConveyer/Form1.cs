@@ -105,11 +105,9 @@ namespace Mqtt_SBM_SmartConveyer
                                     Console.WriteLine("Get receiveMsg = " + receiveMsg);
                                 if (receiveMsg.Equals(actionDone))
                                 {
-                                    Console.WriteLine("Robot action Done");
-                                    // publish OK when action Done
+                                    Console.WriteLine("Receive actionDone and set actionFinished to TRUE");
                                     actionFinished = true ;
                                 }
-
 
                                 /*
                                 // Write Data and return it to Client
@@ -171,20 +169,34 @@ namespace Mqtt_SBM_SmartConveyer
                 case PAYLOAD_move12 :
                 case "Pallet to Tester":
                     action_movAtoB();
-                    if (actionFinished)
-                    {
-                        publishOK = client.Publish(TOPIC_result, Encoding.UTF8.GetBytes(PAYLOAD_respOK));
-                        actionFinished = false;
-                    }                  
+                    while (true)
+                    { 
+                        if (actionFinished == true)
+                        {
+                            publishOK = client.Publish(TOPIC_result, Encoding.UTF8.GetBytes(PAYLOAD_respOK));
+                            actionFinished = false;
+                            Console.WriteLine("publish OK and set actionFinished to false");
+                            break;
+                        }
+                        //else if (actionFinished == false)
+                            //Console.WriteLine("Waiting for Flag changed");
+                    }               
                     break;
 
                 case PAYLOAD_move21 :
                 case "Tester to Pallet":
-                    action_movBtoA();
-                    if (actionFinished)
+                    action_movBtoA();                    
+                    while (true)
                     {
-                        publishOK = client.Publish(TOPIC_result, Encoding.UTF8.GetBytes(PAYLOAD_respOK));
-                        actionFinished = false;
+                        if (actionFinished==true)
+                        {
+                            publishOK = client.Publish(TOPIC_result, Encoding.UTF8.GetBytes(PAYLOAD_respOK));
+                            actionFinished = false;
+                            Console.WriteLine("publish OK and set actionFinished to false");
+                            break;
+                        }
+                        //else if (actionFinished == false)
+                            //Console.WriteLine("Waiting for Flag changed");
                     }
                     break;
 
